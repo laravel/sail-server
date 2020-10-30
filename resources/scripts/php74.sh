@@ -2,7 +2,7 @@ docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php74-composer:latest \
-    laravel new {{ name }}
+    laravel new {{ name }} --prompt-jetstream
 
 cd {{ name }}
 
