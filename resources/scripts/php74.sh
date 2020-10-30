@@ -1,4 +1,4 @@
-docker run --rm -i \
+docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php74-composer:latest \
