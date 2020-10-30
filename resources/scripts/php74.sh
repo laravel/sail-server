@@ -1,9 +1,7 @@
-curl https://laravel.build/docker/7.4 | docker build -t sail/installer -
-
 docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
-    sail/installer:latest \
+    laravelsail/php74-composer:latest \
     composer create-project laravel/laravel {{ name }}
 
 cd {{ name }}
