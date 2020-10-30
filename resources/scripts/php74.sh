@@ -2,7 +2,7 @@ docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php74-composer:latest \
-    composer create-project laravel/laravel {{ name }}
+    laravel new {{ name }}
 
 cd {{ name }}
 

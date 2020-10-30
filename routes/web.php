@@ -20,11 +20,3 @@ Route::get('/7.4/{name}', function ($name) {
         ['Content-Type' => 'text/plain']
     );
 });
-
-Route::get('/docker/7.4', function () {
-    return response(
-        file_get_contents(resource_path('docker/php74.dockerfile')),
-        200,
-        ['Content-Type' => 'text/plain']
-    );
-});
