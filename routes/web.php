@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/7.4/{name}', function ($name) {
+Route::get('/{name}', function ($name) {
     return response(
         str_replace('{{ name }}', $name, file_get_contents(resource_path('scripts/php74.sh'))),
         200,
