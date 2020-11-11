@@ -19,6 +19,8 @@ CYAN='\033[0;36m'
 LIGHT_CYAN='\033[1;36m'
 NC='\033[0m'
 
+echo ""
+
 if sudo -n true 2>/dev/null; then
     sudo chown -R $USER: .
     echo -e "${CYAN}We hope you build something incredible. Get started with:${NC} cd {{ name }} && ./sail up"
