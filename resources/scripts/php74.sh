@@ -23,7 +23,7 @@ echo ""
 
 if sudo -n true 2>/dev/null; then
     sudo chown -R $USER: .
-    echo -e "${CYAN}We hope you build something incredible. Get started with:${NC} cd {{ name }} && ./sail up"
+    echo -e "${CYAN}Get started with:${NC} cd {{ name }} && ./sail up"
 else
     echo -e "${CYAN}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
     echo ""
