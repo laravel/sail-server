@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{name}', function ($name) {
     return response(
-        str_replace('{{ name }}', $name, file_get_contents(resource_path('scripts/php74.sh'))),
+        str_replace('{{ name }}', $name, file_get_contents(resource_path('scripts/php80.sh'))),
         200,
         ['Content-Type' => 'text/plain']
     );
