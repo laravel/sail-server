@@ -30,5 +30,5 @@ else
     echo ""
     sudo chown -R $USER: .
     echo ""
-    echo -e "${WHITE}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./sail up"
+    echo -e "${WHITE}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up"
 fi
