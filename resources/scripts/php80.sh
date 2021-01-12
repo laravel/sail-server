@@ -39,3 +39,6 @@ sed -i.backup 's/MEMCACHED_HOST=127.0.0.1/MEMCACHED_HOST=memcached/g' .env
 sed -i.backup 's/MEMCACHED_HOST=127.0.0.1/MEMCACHED_HOST=memcached/g' .env.example
 sed -i.backup 's/REDIS_HOST=127.0.0.1/REDIS_HOST=redis/g' .env
 sed -i.backup 's/REDIS_HOST=127.0.0.1/REDIS_HOST=redis/g' .env.example
+
+rm -f .env.backup
+rm -f .env.example.backup
