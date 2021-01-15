@@ -11,11 +11,9 @@ docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php80-composer:latest \
-    laravel new {{ name }}
+    bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install"
 
 cd {{ name }}
-
-php ./artisan sail:install
 
 CYAN='\033[0;36m'
 LIGHT_CYAN='\033[1;36m'
