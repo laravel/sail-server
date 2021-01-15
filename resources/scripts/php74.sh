@@ -15,19 +15,22 @@ docker run --rm \
 
 cd {{ name }}
 
+php ./artisan sail:install
+
 CYAN='\033[0;36m'
 LIGHT_CYAN='\033[1;36m'
+WHITE='\033[1;37m'
 NC='\033[0m'
 
 echo ""
 
 if sudo -n true 2>/dev/null; then
     sudo chown -R $USER: .
-    echo -e "${CYAN}Get started with:${NC} cd {{ name }} && ./sail up"
+    echo -e "${WHITE}Get started with:${NC} cd {{ name }} && ./vendor/bin/sail up"
 else
-    echo -e "${CYAN}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
+    echo -e "${WHITE}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
     echo ""
     sudo chown -R $USER: .
     echo ""
-    echo -e "${CYAN}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./sail up"
+    echo -e "${WHITE}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up"
 fi
