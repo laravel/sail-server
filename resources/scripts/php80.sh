@@ -11,7 +11,7 @@ docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php80-composer:latest \
-    laravel new {{ name }}
+    bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install"
 
 cd {{ name }}
 
@@ -32,13 +32,3 @@ else
     echo ""
     echo -e "${WHITE}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up"
 fi
-
-sed -i.backup 's/DB_HOST=127.0.0.1/DB_HOST=mysql/g' .env
-sed -i.backup 's/DB_HOST=127.0.0.1/DB_HOST=mysql/g' .env.example
-sed -i.backup 's/MEMCACHED_HOST=127.0.0.1/MEMCACHED_HOST=memcached/g' .env
-sed -i.backup 's/MEMCACHED_HOST=127.0.0.1/MEMCACHED_HOST=memcached/g' .env.example
-sed -i.backup 's/REDIS_HOST=127.0.0.1/REDIS_HOST=redis/g' .env
-sed -i.backup 's/REDIS_HOST=127.0.0.1/REDIS_HOST=redis/g' .env.example
-
-rm -f .env.backup
-rm -f .env.example.backup
