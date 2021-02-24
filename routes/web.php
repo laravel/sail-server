@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/{name}', function (Request $request, $name) {
-    $services = $request->query('services', 'mysql,redis,meilisearch,mailhog,selenium');
+    $services = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
 
     $script = file_get_contents(resource_path('scripts/php80.sh'));
 
