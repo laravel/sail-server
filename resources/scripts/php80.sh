@@ -11,7 +11,7 @@ docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php80-composer:latest \
-    bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install --services={{ services }}"
+    bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install --with={{ services }}"
 
 cd {{ name }}
 
