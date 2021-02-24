@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{name}', function ($name) {
-    return response(
-        str_replace('{{ name }}', $name, file_get_contents(resource_path('scripts/php80.sh'))),
-        200,
-        ['Content-Type' => 'text/plain']
-    );
+Route::get('/{name}', function (Request $request, $name) {
+    $services = $request->query('services', 'mysql,redis,selenium,mailhog');
+
+    $script = file_get_contents(resource_path('scripts/php80.sh'));
+    $script = str_replace('{{ name }}', $name, $script);
+    $script = str_replace('{{ services }}', $services, $script);
+
+    return response($script, 200, ['Content-Type' => 'text/plain']);
 });
