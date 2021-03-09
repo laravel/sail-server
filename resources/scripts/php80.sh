@@ -15,6 +15,17 @@ docker run --rm \
 
 cd {{ name }}
 
+if {{ git }}; then
+    git init -q .
+    git add .
+    git commit -q -m "Set up a fresh Laravel app"
+fi
+
+if {{ github }}; then
+    gh repo create {{ name }} -y {{ githubFlags }}
+    git push -q -u origin main
+fi
+
 CYAN='\033[0;36m'
 LIGHT_CYAN='\033[1;36m'
 WHITE='\033[1;37m'

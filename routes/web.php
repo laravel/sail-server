@@ -16,11 +16,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{name}', function (Request $request, $name) {
     $services = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
+    $git = $request->query('git', false);
+    $github = $request->query('github', false);
 
-    $script = file_get_contents(resource_path('scripts/php80.sh'));
-
-    $script = str_replace('{{ name }}', $name, $script);
-    $script = str_replace('{{ services }}', $services, $script);
+    $script = str_replace([
+        '{{ name }}',
+        '{{ services }}',
+        '{{ git }}',
+        '{{ github }}',
+        '{{ githubFlags }}',
+    ], [
+        $name,
+        $services,
+        $git !== false || $github !== false ? 'true' : 'false',
+        $github !== false ? 'true' : 'false',
+        $github !== false && $github !== 'true' && $github !== null ? $github : '--private',
+    ], file_get_contents(resource_path('scripts/php80.sh')));
 
     return response($script, 200, ['Content-Type' => 'text/plain']);
 });
