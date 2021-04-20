@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/{name}', function (Request $request, $name) {
+    $php = $request->query('php', '80');
     $services = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
 
-    $script = file_get_contents(resource_path('scripts/php80.sh'));
-
-    $script = str_replace('{{ name }}', $name, $script);
-    $script = str_replace('{{ services }}', $services, $script);
+    $script = str_replace(
+        ['{{ php }}', '{{ name }}', '{{ services }}'],
+        [$php, $name, $services],
+        file_get_contents(resource_path('scripts/php.sh'))
+    );
 
     return response($script, 200, ['Content-Type' => 'text/plain']);
 });
