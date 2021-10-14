@@ -8,7 +8,7 @@ if [ $? -ne 0 ]; then
 fi
 
 docker run --rm \
-    -v $(pwd):/opt \
+    -v "$(pwd)":/opt \
     -w /opt \
     laravelsail/php{{ php }}-composer:latest \
     bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install --with={{ services }}"
