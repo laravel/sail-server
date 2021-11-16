@@ -22,7 +22,7 @@ Route::get('/{name}', function (Request $request, $name) {
 
     $services = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
 
-    $devcontainer = ($request->has('devcontainer') ? "--devcontainer" : "");
+    $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
 
     $script = str_replace(
         ['{{ php }}', '{{ name }}', '{{ services }}', '{{ devcontainer }}'],
