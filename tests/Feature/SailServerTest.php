@@ -23,7 +23,8 @@ class SailServerTest extends TestCase
         $response->assertSee('php ./artisan sail:install --with=postgresql,redis,selenium');
     }
 
-    public function test_it_adds_the_devcontainer_upon_request() {
+    public function test_it_adds_the_devcontainer_upon_request()
+    {
         $response = $this->get('/example-app?with=postgres&devcontainer');
 
         $response->assertStatus(200);
