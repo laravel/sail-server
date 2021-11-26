@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 Route::get('/{name}', function (Request $request, $name) {
     Validator::validate(['name' => $name], ['name' => 'string|alpha_dash']);
 
-    $php = $request->query('php', '81');
+    $php = $request->query('php', '80');
 
     $services = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
 
