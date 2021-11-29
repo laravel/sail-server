@@ -10,7 +10,7 @@ fi
 docker run --rm \
     -v "$(pwd)":/opt \
     -w /opt \
-    --platform=linux/amd64
+    --platform=linux/amd64 \
     laravelsail/php{{ php }}-composer:latest \
     bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install --with={{ services }} {{ devcontainer }}"
 
