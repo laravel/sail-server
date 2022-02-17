@@ -11,7 +11,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app');
 
         $response->assertStatus(200);
-        $response->assertSee("laravelsail/php80-composer:latest");
+        $response->assertSee("laravelsail/php81-composer:latest");
         $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailhog,selenium "', false);
     }
 
