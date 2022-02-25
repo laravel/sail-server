@@ -6,6 +6,11 @@ use Tests\TestCase;
 
 class SailServerTest extends TestCase
 {
+    public function test_the_homepage_redirects_to_the_laravel_docs()
+    {
+        $this->get('/')->assertRedirect('https://laravel.com/docs');
+    }
+
     public function test_it_can_return_the_sail_install_script()
     {
         $response = $this->get('/example-app');
@@ -29,5 +34,13 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=postgres --devcontainer"', false);
+    }
+
+    public function test_it_does_not_accepts_domains_with_a_dot()
+    {
+        $response = $this->get('/foo.test');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid site name. Please only use alpha-numeric characters, dashes and underscores.');
     }
 }
