@@ -10,7 +10,7 @@ Route::redirect('/', 'https://laravel.com/docs', 302);
 Route::get('/{name}', function (Request $request, $name) {
     try {
         Validator::validate(['name' => $name], ['name' => 'string|alpha_dash']);
-    } catch (ValidationException) {
+    } catch (ValidationException $e) {
         return response('Invalid site name. Please only use alpha-numeric characters, dashes and underscores.', 400);
     }
 
