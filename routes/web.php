@@ -3,20 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::redirect('/', 'https://laravel.com/docs', 302);
 
 Route::get('/{name}', function (Request $request, $name) {
-    Validator::validate(['name' => $name], ['name' => 'string|alpha_dash']);
+    try {
+        Validator::validate(['name' => $name], ['name' => 'string|alpha_dash']);
+    } catch (ValidationException) {
+        return response('Invalid site name. Please only use alpha-numeric characters, dashes and underscores.', 400);
+    }
 
     $php = $request->query('php', '81');
 
