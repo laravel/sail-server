@@ -41,6 +41,6 @@ class SailServerTest extends TestCase
         $response = $this->get('/foo.test');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid site name. Please only use alpha-numeric characters, dashes and underscores.');
+        $response->assertSee('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.');
     }
 }
