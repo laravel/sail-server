@@ -16,13 +16,15 @@ Route::get('/{name}', function (Request $request, $name) {
 
     $php = $request->query('php', '81');
 
+    $with_git = $request->has('git') ? '--git' : '';
+
     $services = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
 
     $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
 
     $script = str_replace(
-        ['{{ php }}', '{{ name }}', '{{ services }}', '{{ devcontainer }}'],
-        [$php, $name, $services, $devcontainer],
+        ['{{ php }}', '{{ name }}', '{{ with_git }}', '{{ services }}', '{{ devcontainer }}'],
+        [$php, $name, $with_git, $services, $devcontainer],
         file_get_contents(resource_path('scripts/php.sh'))
     );
 

@@ -17,7 +17,7 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("laravelsail/php81-composer:latest");
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailhog,selenium "', false);
+        $response->assertSee('bash -c "laravel new example-app  && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailhog,selenium "', false);
     }
 
     public function test_different_services_can_be_picked()
@@ -28,12 +28,20 @@ class SailServerTest extends TestCase
         $response->assertSee('php ./artisan sail:install --with=postgresql,redis,selenium');
     }
 
+    public function test_it_adds_git_upon_request()
+    {
+        $response = $this->get('/example-app?with=postgres&git');
+
+        $response->assertStatus(200);
+        $response->assertSee('bash -c "laravel new example-app --git && cd example-app && php ./artisan sail:install --with=postgres "', false);
+    }
+
     public function test_it_adds_the_devcontainer_upon_request()
     {
         $response = $this->get('/example-app?with=postgres&devcontainer');
 
         $response->assertStatus(200);
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=postgres --devcontainer"', false);
+        $response->assertSee('bash -c "laravel new example-app  && cd example-app && php ./artisan sail:install --with=postgres --devcontainer"', false);
     }
 
     public function test_it_does_not_accepts_domains_with_a_dot()
