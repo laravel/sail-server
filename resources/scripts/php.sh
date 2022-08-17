@@ -11,9 +11,12 @@ docker run --rm \
     -v "$(pwd)":/opt \
     -w /opt \
     laravelsail/php{{ php }}-composer:latest \
-    bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install --with={{ services }} {{ devcontainer }}"
+    bash -c "laravel new {{ name }} && cd {{ name }} && php ./artisan sail:install --with={{ with }} {{ devcontainer }}"
 
 cd {{ name }}
+
+./vendor/bin/sail pull {{ services }}
+./vendor/bin/sail build
 
 CYAN='\033[0;36m'
 LIGHT_CYAN='\033[1;36m'
