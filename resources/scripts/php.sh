@@ -8,6 +8,7 @@ if [ $? -ne 0 ]; then
 fi
 
 docker run --rm \
+    --pull=always \
     -v "$(pwd)":/opt \
     -w /opt \
     laravelsail/php{{ php }}-composer:latest \
