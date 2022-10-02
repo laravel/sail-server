@@ -28,11 +28,11 @@ echo ""
 
 if sudo -n true 2>/dev/null; then
     sudo chown -R $USER: .
-    echo -e "${WHITE}Get started with:${NC} cd {{ name }} && ./vendor/bin/sail up"
+    echo -e "${WHITE}Get started with:${NC} cd {{ name }} && ./vendor/bin/sail up -d"
 else
     echo -e "${WHITE}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
     echo ""
     sudo chown -R $USER: .
     echo ""
-    echo -e "${WHITE}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up"
+    echo -e "${WHITE}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up -d"
 fi
