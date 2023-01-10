@@ -14,7 +14,7 @@ Route::get('/{name}', function (Request $request, $name) {
         return response('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.', 400);
     }
 
-    $php = $request->query('php', '81');
+    $php = $request->query('php', '82');
 
     $with = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
 
