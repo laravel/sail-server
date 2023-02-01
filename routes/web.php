@@ -16,7 +16,7 @@ Route::get('/{name}', function (Request $request, $name) {
 
     $php = $request->query('php', '82');
 
-    $with = $request->query('with', 'mysql,redis,meilisearch,mailhog,selenium');
+    $with = $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium');
 
     $services = str_replace(',', ' ', $with);
 

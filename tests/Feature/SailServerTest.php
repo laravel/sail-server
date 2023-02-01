@@ -17,7 +17,7 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("laravelsail/php82-composer:latest");
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailhog,selenium "', false);
+        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium "', false);
     }
 
     public function test_different_services_can_be_picked()
