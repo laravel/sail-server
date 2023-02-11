@@ -16,7 +16,7 @@ docker run --rm \
 
 cd {{ name }}
 
-./vendor/bin/sail pull {{ services }}
+{{ pull }} {{ services }}
 ./vendor/bin/sail build
 
 CYAN='\033[0;36m'

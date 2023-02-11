@@ -18,13 +18,21 @@ Route::get('/{name}', function (Request $request, $name) {
 
     $with = $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium');
 
-    $services = str_replace(',', ' ', $with);
+    if ($with === 'none') {
+        $pull = '';
+
+        $services = '';
+    } else {
+        $pull = './vendor/bin/sail pull';
+
+        $services = str_replace(',', ' ', $with);
+    }
 
     $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
 
     $script = str_replace(
-        ['{{ php }}', '{{ name }}', '{{ with }}', '{{ devcontainer }}', '{{ services }}'],
-        [$php, $name, $with, $devcontainer, $services],
+        ['{{ php }}', '{{ name }}', '{{ with }}', '{{ devcontainer }}', '{{ pull }}', '{{ services }}'],
+        [$php, $name, $with, $devcontainer, $pull, $services],
         file_get_contents(resource_path('scripts/php.sh'))
     );
 
