@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -8,17 +10,56 @@ use Illuminate\Validation\ValidationException;
 Route::redirect('/', 'https://laravel.com/docs', 302);
 
 Route::get('/{name}', function (Request $request, $name) {
-    try {
-        Validator::validate(['name' => $name], ['name' => 'string|alpha_dash']);
-    } catch (ValidationException $e) {
-        return response('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.', 400);
-    }
+    $availableServices = [
+        'mysql',
+        'pgsql',
+        'mariadb',
+        'redis',
+        'memcached',
+        'meilisearch',
+        'minio',
+        'mailpit',
+        'selenium',
+        'soketi',
+    ];
 
     $php = $request->query('php', '82');
 
-    $with = $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium');
+    $with = array_unique(explode(',', $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium')));
 
-    $services = str_replace(',', ' ', $with);
+    try {
+        Validator::validate(
+            [
+                'name' => $name,
+                'php' => $php,
+                'with' => $with,
+            ],
+            [
+                'name' => 'string|alpha_dash',
+                'php' => ['string', Rule::in(['74', '80', '81', '82'])],
+                'with' => 'array',
+                'with.*' => ['required', 'string', Rule::in($availableServices)],
+            ]
+        );
+    } catch (ValidationException $e) {
+        $errors = Arr::undot($e->errors());
+        
+        if (array_key_exists('name', $errors)) {
+            return response('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.', 400);
+        }
+
+        if (array_key_exists('php', $errors)) {
+            return response('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).', 400);
+        }
+
+        if (array_key_exists('with', $errors)) {
+            return response('Invalid service name. Please provide one or more of the supported services ('.implode(', ', $availableServices).').', 400);
+        }
+    }
+
+    $services = implode(' ', $with);
+
+    $with = implode(',', $with);
 
     $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
 

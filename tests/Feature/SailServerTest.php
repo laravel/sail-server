@@ -20,20 +20,36 @@ class SailServerTest extends TestCase
         $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium "', false);
     }
 
-    public function test_different_services_can_be_picked()
+    public function test_different_php_versions_can_be_picked()
     {
-        $response = $this->get('/example-app?with=postgresql,redis,selenium');
+        $response = $this->get('/example-app?php=80');
 
         $response->assertStatus(200);
-        $response->assertSee('php ./artisan sail:install --with=postgresql,redis,selenium');
+        $response->assertSee("laravelsail/php80-composer:latest");
+    }
+
+    public function test_different_services_can_be_picked()
+    {
+        $response = $this->get('/example-app?with=pgsql,redis,selenium');
+
+        $response->assertStatus(200);
+        $response->assertSee('php ./artisan sail:install --with=pgsql,redis,selenium');
+    }
+
+    public function test_it_removes_duplicated_valid_services()
+    {
+        $response = $this->get('/example-app?with=redis,redis');
+
+        $response->assertStatus(200);
+        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=redis "', false);
     }
 
     public function test_it_adds_the_devcontainer_upon_request()
     {
-        $response = $this->get('/example-app?with=postgres&devcontainer');
+        $response = $this->get('/example-app?with=pgsql&devcontainer');
 
         $response->assertStatus(200);
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=postgres --devcontainer"', false);
+        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=pgsql --devcontainer"', false);
     }
 
     public function test_it_does_not_accepts_domains_with_a_dot()
@@ -42,5 +58,37 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(400);
         $response->assertSee('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.');
+    }
+
+    public function test_it_does_not_accept_empty_php_query_if_present()
+    {
+        $response = $this->get('/example-app?php');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).');
+    }
+
+    public function test_it_does_not_accept_invalid_php_versions()
+    {
+        $response = $this->get('/example-app?php=1000');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).');
+    }
+
+    public function test_it_does_not_accept_empty_with_query_when_present()
+    {
+        $response = $this->get('/example-app?with');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
+    }
+
+    public function test_it_does_not_accept_invalid_services()
+    {
+        $response = $this->get('/example-app?with=redis,invalid_service_name');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
     }
 }
