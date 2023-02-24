@@ -65,7 +65,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?php');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid PHP version. Please provide one of the allowed versions (7.4, 8.0, 8.1 or 8,2).');
+        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).');
     }
 
     public function test_it_does_not_accept_invalid_php_versions()
@@ -73,7 +73,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?php=1000');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid PHP version. Please provide one of the allowed versions (7.4, 8.0, 8.1 or 8,2).');
+        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).');
     }
 
     public function test_it_does_not_accept_empty_with_query_when_present()
@@ -81,7 +81,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please check the service names are one of the allowed (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
     }
 
     public function test_it_does_not_accept_invalid_services()
@@ -89,6 +89,6 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=redis,invalid_service_name');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please check the service names are one of the allowed (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
     }
 }

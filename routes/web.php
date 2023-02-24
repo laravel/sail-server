@@ -49,11 +49,11 @@ Route::get('/{name}', function (Request $request, $name) {
         }
 
         if (array_key_exists('php', $errors)) {
-            return response('Invalid PHP version. Please provide one of the allowed versions (7.4, 8.0, 8.1 or 8,2).', 400);
+            return response('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).', 400);
         }
 
         if (array_key_exists('with', $errors)) {
-            return response('Invalid service name. Please check the service names are one of the allowed ('.implode(', ', $availableServices).').', 400);
+            return response('Invalid service name. Please provide one or more of the supported services ('.implode(', ', $availableServices).').', 400);
         }
     }
 
