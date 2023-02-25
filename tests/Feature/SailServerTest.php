@@ -17,7 +17,7 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("laravelsail/php82-composer:latest");
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium "', false);
+        $response->assertSee('bash -c "laravel new example-app  && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium "', false);
     }
 
     public function test_different_php_versions_can_be_picked()
@@ -41,7 +41,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=redis,redis');
 
         $response->assertStatus(200);
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=redis "', false);
+        $response->assertSee('bash -c "laravel new example-app  && cd example-app && php ./artisan sail:install --with=redis "', false);
     }
 
     public function test_it_adds_the_devcontainer_upon_request()
@@ -49,7 +49,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=pgsql&devcontainer');
 
         $response->assertStatus(200);
-        $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=pgsql --devcontainer"', false);
+        $response->assertSee('bash -c "laravel new example-app  && cd example-app && php ./artisan sail:install --with=pgsql --devcontainer"', false);
     }
 
     public function test_it_does_not_accepts_domains_with_a_dot()
@@ -90,5 +90,13 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(400);
         $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
+    }
+
+    public function test_it_adds_pest_scaffolding_upon_request()
+    {
+        $response = $this->get('/example-app?with=pgsql&pest');
+
+        $response->assertStatus(200);
+        $response->assertSee('bash -c "laravel new example-app --pest && cd example-app && php ./artisan sail:install --with=pgsql "', false);
     }
 }

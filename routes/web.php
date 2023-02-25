@@ -43,7 +43,7 @@ Route::get('/{name}', function (Request $request, $name) {
         );
     } catch (ValidationException $e) {
         $errors = Arr::undot($e->errors());
-        
+
         if (array_key_exists('name', $errors)) {
             return response('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.', 400);
         }
@@ -62,10 +62,11 @@ Route::get('/{name}', function (Request $request, $name) {
     $with = implode(',', $with);
 
     $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
+    $pest = $request->has('pest') ? '--pest' : '';
 
     $script = str_replace(
-        ['{{ php }}', '{{ name }}', '{{ with }}', '{{ devcontainer }}', '{{ services }}'],
-        [$php, $name, $with, $devcontainer, $services],
+        ['{{ php }}', '{{ name }}', '{{ with }}', '{{ devcontainer }}', '{{ services }}', '{{ pest }}'],
+        [$php, $name, $with, $devcontainer, $services, $pest],
         file_get_contents(resource_path('scripts/php.sh'))
     );
 
