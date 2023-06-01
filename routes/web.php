@@ -38,12 +38,16 @@ Route::get('/{name}', function (Request $request, $name) {
                 'name' => 'string|alpha_dash',
                 'php' => ['string', Rule::in(['74', '80', '81', '82'])],
                 'with' => 'array',
-                'with.*' => ['required', 'string', Rule::in($availableServices)],
+                'with.*' => [
+                    'required',
+                    'string',
+                    count($with) === 1 && in_array("none", $with) ? Rule::in(['none']) : Rule::in($availableServices)
+                ],
             ]
         );
     } catch (ValidationException $e) {
         $errors = Arr::undot($e->errors());
-        
+
         if (array_key_exists('name', $errors)) {
             return response('Invalid site name. Please only use alpha-numeric characters, dashes, and underscores.', 400);
         }
@@ -53,7 +57,7 @@ Route::get('/{name}', function (Request $request, $name) {
         }
 
         if (array_key_exists('with', $errors)) {
-            return response('Invalid service name. Please provide one or more of the supported services ('.implode(', ', $availableServices).').', 400);
+            return response('Invalid service name. Please provide one or more of the supported services ('.implode(', ', $availableServices).') or "none".', 400);
         }
     }
 

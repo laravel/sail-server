@@ -36,6 +36,14 @@ class SailServerTest extends TestCase
         $response->assertSee('php ./artisan sail:install --with=pgsql,redis,selenium');
     }
 
+    public function test_no_services_can_be_picked()
+    {
+        $response = $this->get('/example-app?with=none');
+
+        $response->assertStatus(200);
+        $response->assertSee('php ./artisan sail:install --with=none');
+    }
+
     public function test_it_removes_duplicated_valid_services()
     {
         $response = $this->get('/example-app?with=redis,redis');
@@ -81,7 +89,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi) or "none".', false);
     }
 
     public function test_it_does_not_accept_invalid_services()
@@ -89,6 +97,14 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=redis,invalid_service_name');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi).');
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi) or "none".', false);
+    }
+
+    public function test_it_does_not_accept_none_with_other_services()
+    {
+        $response = $this->get('/example-app?with=none,redis');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, memcached, meilisearch, minio, mailpit, selenium, soketi) or "none".', false);
     }
 }

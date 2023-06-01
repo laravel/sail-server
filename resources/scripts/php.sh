@@ -16,8 +16,13 @@ docker run --rm \
 
 cd {{ name }}
 
-./vendor/bin/sail pull {{ services }}
-./vendor/bin/sail build
+# Allow build with no additional services
+if [ "{{ services }}" == "none" ]; then
+    ./vendor/bin/sail build
+else
+    ./vendor/bin/sail pull {{ services }}
+    ./vendor/bin/sail build
+fi
 
 CYAN='\033[0;36m'
 LIGHT_CYAN='\033[1;36m'
