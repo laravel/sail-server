@@ -41,7 +41,7 @@ Route::get('/{name}', function (Request $request, $name) {
                 'with.*' => [
                     'required',
                     'string',
-                    count($with) === 1 && in_array("none", $with) ? Rule::in(['none']) : Rule::in($availableServices)
+                    count($with) === 1 && in_array('none', $with) ? Rule::in(['none']) : Rule::in($availableServices)
                 ],
             ]
         );
