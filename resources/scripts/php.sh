@@ -16,7 +16,7 @@ docker run --rm \
 
 cd {{ name }}
 
-# Allow build with no additional services
+# Allow build with no additional services..
 if [ "{{ services }}" == "none" ]; then
     ./vendor/bin/sail build
 else
