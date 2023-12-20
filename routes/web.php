@@ -23,7 +23,7 @@ Route::get('/{name}', function (Request $request, $name) {
         'soketi',
     ];
 
-    $php = $request->query('php', '82');
+    $php = $request->query('php', '83');
 
     $with = array_unique(explode(',', $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium')));
 
@@ -36,7 +36,7 @@ Route::get('/{name}', function (Request $request, $name) {
             ],
             [
                 'name' => 'string|alpha_dash',
-                'php' => ['string', Rule::in(['74', '80', '81', '82'])],
+                'php' => ['string', Rule::in(['74', '80', '81', '82', '83'])],
                 'with' => 'array',
                 'with.*' => [
                     'required',
@@ -53,7 +53,7 @@ Route::get('/{name}', function (Request $request, $name) {
         }
 
         if (array_key_exists('php', $errors)) {
-            return response('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).', 400);
+            return response('Invalid PHP version. Please specify a supported version (74, 80, 81, 82 or 83).', 400);
         }
 
         if (array_key_exists('with', $errors)) {
