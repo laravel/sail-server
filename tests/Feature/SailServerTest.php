@@ -16,7 +16,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app');
 
         $response->assertStatus(200);
-        $response->assertSee("laravelsail/php82-composer:latest");
+        $response->assertSee("laravelsail/php83-composer:latest");
         $response->assertSee('bash -c "laravel new example-app && cd example-app && php ./artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium "', false);
     }
 
@@ -73,7 +73,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?php');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).');
+        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81, 82 or 83).');
     }
 
     public function test_it_does_not_accept_invalid_php_versions()
@@ -81,7 +81,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?php=1000');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81 or 82).');
+        $response->assertSee('Invalid PHP version. Please specify a supported version (74, 80, 81, 82 or 83).');
     }
 
     public function test_it_does_not_accept_empty_with_query_when_present()
