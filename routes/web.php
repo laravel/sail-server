@@ -23,7 +23,7 @@ Route::get('/{name}', function (Request $request, $name) {
         'soketi',
     ];
 
-    $php = $request->query('php', '82');
+    $php = $request->query('php', '83');
 
     $with = array_unique(explode(',', $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium')));
 
