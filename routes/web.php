@@ -17,6 +17,7 @@ Route::get('/{name}', function (Request $request, $name) {
         'redis',
         'memcached',
         'meilisearch',
+        'typesense',
         'minio',
         'mailpit',
         'selenium',
