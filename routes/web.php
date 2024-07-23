@@ -14,8 +14,6 @@ Route::get('/{name}', function (Request $request, $name) {
         'mysql',
         'pgsql',
         'mariadb',
-        'mariadb10',
-        'mariadb11',
         'redis',
         'memcached',
         'meilisearch',
@@ -29,11 +27,6 @@ Route::get('/{name}', function (Request $request, $name) {
     $php = $request->query('php', '83');
 
     $with = array_unique(explode(',', $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium')));
-
-    if(in_array('mariadb', $with)) {
-        $with = array_diff($with, ['mariadb']);
-        $with[] = 'mariadb11';
-    }
 
     try {
         Validator::validate(
