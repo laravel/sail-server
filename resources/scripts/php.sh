@@ -31,13 +31,22 @@ NC='\033[0m'
 
 echo ""
 
-if sudo -n true 2>/dev/null; then
-    sudo chown -R $USER: .
+if command -v doas &>/dev/null; then
+    SUDO="doas"
+elif command -v sudo &>/dev/null; then
+    SUDO="sudo"
+else
+    echo "Neither sudo nor doas is available. Exiting."
+    exit 1
+fi
+
+if $SUDO -n true 2>/dev/null; then
+    $SUDO chown -R $USER: .
     echo -e "${BOLD}Get started with:${NC} cd {{ name }} && ./vendor/bin/sail up"
 else
     echo -e "${BOLD}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
     echo ""
-    sudo chown -R $USER: .
+    $SUDO chown -R $USER: .
     echo ""
     echo -e "${BOLD}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up"
 fi
