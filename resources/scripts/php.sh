@@ -32,13 +32,13 @@ NC='\033[0m'
 echo ""
 
 if command -v doas &>/dev/null; then
-     SUDO="doas"
- elif command -v sudo &>/dev/null; then
-     SUDO="sudo"
- else
-     echo "Neither sudo nor doas is available. Exiting."
-     exit 1
- fi
+    SUDO="doas"
+elif command -v sudo &>/dev/null; then
+    SUDO="sudo"
+else
+    echo "Neither sudo nor doas is available. Exiting."
+    exit 1
+fi
 
 if $SUDO -n true 2>/dev/null; then
     $SUDO chown -R $USER: .
