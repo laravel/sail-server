@@ -37,6 +37,7 @@ Route::get('/{name}', function (Request $request, $name) {
                 'name' => $name,
                 'php' => $php,
                 'with' => $with,
+                'starter-kit' => $starterKit,
             ],
             [
                 'name' => 'string|alpha_dash',
