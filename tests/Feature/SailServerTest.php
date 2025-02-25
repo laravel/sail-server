@@ -36,6 +36,15 @@ class SailServerTest extends TestCase
         $response->assertSee('php ./artisan sail:install --with=pgsql,redis,selenium');
     }
 
+    public function test_a_starter_kit_can_be_picked()
+    {
+        $response = $this->get('/example-app?starter-kit=react');
+
+        $response->assertStatus(200);
+        $response->assertSee('laravel new example-app --react --no-interaction', false);
+        $response->assertSee('npm install && npm run dev', false);
+    }
+
     public function test_no_services_can_be_picked()
     {
         $response = $this->get('/example-app?with=none');
@@ -49,7 +58,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=redis,redis');
 
         $response->assertStatus(200);
-        $response->assertSee('bash -c "laravel new example-app --no-interaction && cd example-app && php ./artisan sail:install --with=redis "', false);
+        $response->assertSee('bash -c "laravel new example-app --no-interaction && cd example-app && php ./artisan sail:install --with=redis  "', false);
     }
 
     public function test_it_adds_the_devcontainer_upon_request()
@@ -57,7 +66,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=pgsql&devcontainer');
 
         $response->assertStatus(200);
-        $response->assertSee('bash -c "laravel new example-app --no-interaction && cd example-app && php ./artisan sail:install --with=pgsql --devcontainer"', false);
+        $response->assertSee('bash -c "laravel new example-app --no-interaction && cd example-app && php ./artisan sail:install --with=pgsql --devcontainer "', false);
     }
 
     public function test_it_does_not_accepts_domains_with_a_dot()
@@ -106,5 +115,13 @@ class SailServerTest extends TestCase
 
         $response->assertStatus(400);
         $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
+    }
+
+    public function test_it_does_not_accept_invalid_starter_kit()
+    {
+        $response = $this->get('/example-app?starter-kit=invalid_starter_kit');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid starter kit. Please provide one of the supported starter kits (react, vue, livewire).', false);
     }
 }

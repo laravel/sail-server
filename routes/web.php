@@ -29,6 +29,8 @@ Route::get('/{name}', function (Request $request, $name) {
 
     $with = array_unique(explode(',', $request->query('with', 'mysql,redis,meilisearch,mailpit,selenium')));
 
+    $starterKit = $request->query('starter-kit', '');
+
     try {
         Validator::validate(
             [
@@ -45,6 +47,7 @@ Route::get('/{name}', function (Request $request, $name) {
                     'string',
                     count($with) === 1 && in_array('none', $with) ? Rule::in(['none']) : Rule::in($availableServices)
                 ],
+                'starter-kit' => ['sometimes', 'string', Rule::in(['react', 'vue', 'livewire'])],
             ]
         );
     } catch (ValidationException $e) {
@@ -61,6 +64,10 @@ Route::get('/{name}', function (Request $request, $name) {
         if (array_key_exists('with', $errors)) {
             return response('Invalid service name. Please provide one or more of the supported services ('.implode(', ', $availableServices).') or "none".', 400);
         }
+
+        if (array_key_exists('starter-kit', $errors)) {
+            return response('Invalid starter kit. Please provide one of the supported starter kits (react, vue, livewire).', 400);
+        }
     }
 
     $services = implode(' ', $with);
@@ -69,9 +76,18 @@ Route::get('/{name}', function (Request $request, $name) {
 
     $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
 
+    $starterKit = $request->has('starter-kit') ? "--{$starterKit}" : '';
+
+    $starterKitDependenciesInstall = match ($starterKit) {
+        '--react' => '&& npm install && npm run dev',
+        '--vue' => '&& npm install && npm run dev',
+        '--livewire' => '',
+        default => '',
+    };
+
     $script = str_replace(
-        ['{{ php }}', '{{ name }}', '{{ with }}', '{{ devcontainer }}', '{{ services }}'],
-        [$php, $name, $with, $devcontainer, $services],
+        ['{{ php }}', '{{ name }}', '{{ with }}', '{{ starter-kit }}', '{{ starter-kit-dependencies-install }}', '{{ devcontainer }}', '{{ services }}'],
+        [$php, $name, $with, $starterKit, $starterKitDependenciesInstall, $devcontainer, $services],
         file_get_contents(resource_path('scripts/php.sh'))
     );
 
