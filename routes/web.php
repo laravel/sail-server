@@ -15,6 +15,7 @@ Route::get('/{name}', function (Request $request, $name) {
         'pgsql',
         'mariadb',
         'redis',
+        'rabbitmq',
         'valkey',
         'memcached',
         'meilisearch',
