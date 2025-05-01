@@ -89,7 +89,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, rabbitmq, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
     }
 
     public function test_it_does_not_accept_invalid_services()
@@ -97,7 +97,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=redis,invalid_service_name');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, rabbitmq, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
     }
 
     public function test_it_does_not_accept_none_with_other_services()
@@ -105,6 +105,6 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?with=none,redis');
 
         $response->assertStatus(400);
-        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
+        $response->assertSee('Invalid service name. Please provide one or more of the supported services (mysql, pgsql, mariadb, redis, rabbitmq, valkey, memcached, meilisearch, typesense, minio, mailpit, selenium, soketi) or "none".', false);
     }
 }
