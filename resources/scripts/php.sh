@@ -12,7 +12,7 @@ docker run --rm \
     -v "$(pwd)":/opt \
     -w /opt \
     laravelsail/php{{ php }}-composer:latest \
-    bash -c "laravel new {{ name }} --no-interaction && cd {{ name }} && composer show laravel/sail 2>/dev/null || composer require laravel/sail && php ./artisan sail:install --with={{ with }} {{ devcontainer }}"
+    bash -c "laravel new {{ name }} --no-interaction && cd {{ name }} && composer show laravel/sail 2>/dev/null || composer require laravel/sail --dev && php ./artisan sail:install --with={{ with }} {{ devcontainer }}"
 
 cd {{ name }}
 
