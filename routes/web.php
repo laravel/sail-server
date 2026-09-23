@@ -23,6 +23,7 @@ Route::get('/{name}', function (Request $request, $name) {
         'minio',
         'rustfs',
         'mailpit',
+        'mailtrap-local',
         'rabbitmq',
         'selenium',
         'soketi',
