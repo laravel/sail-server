@@ -16,7 +16,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app');
 
         $response->assertStatus(200);
-        $response->assertSee("laravelsail/php84-composer:latest");
+        $response->assertSee('laravelsail/php84-composer:latest');
         $response->assertSee('bash -c "laravel new example-app --no-interaction && cd example-app && composer show laravel/sail 2>/dev/null || composer require laravel/sail --dev && php ./artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium "', false);
     }
 
@@ -25,7 +25,7 @@ class SailServerTest extends TestCase
         $response = $this->get('/example-app?php=80');
 
         $response->assertStatus(200);
-        $response->assertSee("laravelsail/php80-composer:latest");
+        $response->assertSee('laravelsail/php80-composer:latest');
     }
 
     public function test_different_services_can_be_picked()
